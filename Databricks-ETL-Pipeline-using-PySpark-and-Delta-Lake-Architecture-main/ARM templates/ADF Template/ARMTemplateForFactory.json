@@ -1,0 +1,183 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "type": "string",
+            "metadata": "Data Factory name",
+            "defaultValue": "your-adf-lakehouse-pipeline"
+        },
+        "databricksWorkspaceUrl": {
+            "type": "string",
+            "metadata": "Databricks workspace URL",
+            "defaultValue": "https://adb-xxxxxxxxx.xx.azuredatabricks.net"
+        },
+        "ADFtoDatabricks_accessToken": {
+            "type": "secureString",
+            "metadata": "Secure string for 'accessToken' of 'ADFtoDatabricks'"
+        },
+        "ADFtoDatabricks_properties_typeProperties_existingClusterId": {
+            "type": "string",
+            "metadata": "Databricks cluster ID",
+            "defaultValue": "your-cluster-id"
+        },
+        "userEmail": {
+            "type": "string",
+            "metadata": "Your email for notebook paths",
+            "defaultValue": "your-email@domain.com"
+        },
+        "scheduleTimeZone": {
+            "type": "string",
+            "metadata": "Timezone for pipeline schedule",
+            "defaultValue": "UTC"
+        }
+    },
+    "variables": {
+        "factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+    },
+    "resources": [
+        {
+            "name": "[concat(parameters('factoryName'), '/DatabricksTrigger')]",
+            "type": "Microsoft.DataFactory/factories/pipelines",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "activities": [
+                    {
+                        "name": "Extract",
+                        "type": "DatabricksNotebook",
+                        "dependsOn": [],
+                        "policy": {
+                            "timeout": "0.12:00:00",
+                            "retry": 3,
+                            "retryIntervalInSeconds": 30,
+                            "secureOutput": true,
+                            "secureInput": false
+                        },
+                        "userProperties": [],
+                        "typeProperties": {
+                            "notebookPath": "[concat('/Workspace/Users/', parameters('userEmail'), '/notebooks/01_Extract_Bronze')]"
+                        },
+                        "linkedServiceName": {
+                            "referenceName": "ADFtoDatabricks",
+                            "type": "LinkedServiceReference"
+                        }
+                    },
+                    {
+                        "name": "Transform",
+                        "type": "DatabricksNotebook",
+                        "dependsOn": [
+                            {
+                                "activity": "Extract",
+                                "dependencyConditions": [
+                                    "Succeeded"
+                                ]
+                            }
+                        ],
+                        "policy": {
+                            "timeout": "0.12:00:00",
+                            "retry": 3,
+                            "retryIntervalInSeconds": 30,
+                            "secureOutput": false,
+                            "secureInput": false
+                        },
+                        "userProperties": [],
+                        "typeProperties": {
+                            "notebookPath": "[concat('/Workspace/Users/', parameters('userEmail'), '/notebooks/02_Transform_Silver')]"
+                        },
+                        "linkedServiceName": {
+                            "referenceName": "ADFtoDatabricks",
+                            "type": "LinkedServiceReference"
+                        }
+                    },
+                    {
+                        "name": "Load",
+                        "type": "DatabricksNotebook",
+                        "dependsOn": [
+                            {
+                                "activity": "Transform",
+                                "dependencyConditions": [
+                                    "Succeeded"
+                                ]
+                            }
+                        ],
+                        "policy": {
+                            "timeout": "0.12:00:00",
+                            "retry": 0,
+                            "retryIntervalInSeconds": 30,
+                            "secureOutput": false,
+                            "secureInput": false
+                        },
+                        "userProperties": [],
+                        "typeProperties": {
+                            "notebookPath": "[concat('/Workspace/Users/', parameters('userEmail'), '/notebooks/03_Load_Gold')]"
+                        },
+                        "linkedServiceName": {
+                            "referenceName": "ADFtoDatabricks",
+                            "type": "LinkedServiceReference"
+                        }
+                    }
+                ],
+                "policy": {
+                    "elapsedTimeMetric": {}
+                },
+                "annotations": []
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/ADFtoDatabricks')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/ADFtoDatabricks')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureDatabricks",
+                "typeProperties": {
+                    "domain": "[parameters('databricksWorkspaceUrl')]",
+                    "accessToken": {
+                        "type": "SecureString",
+                        "value": "[parameters('ADFtoDatabricks_accessToken')]"
+                    },
+                    "existingClusterId": "[parameters('ADFtoDatabricks_properties_typeProperties_existingClusterId')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/Weekly')]",
+            "type": "Microsoft.DataFactory/factories/triggers",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "runtimeState": "Stopped",
+                "pipelines": [
+                    {
+                        "pipelineReference": {
+                            "referenceName": "DatabricksTrigger",
+                            "type": "PipelineReference"
+                        },
+                        "parameters": {}
+                    }
+                ],
+                "type": "ScheduleTrigger",
+                "typeProperties": {
+                    "recurrence": {
+                        "frequency": "Week",
+                        "interval": 1,
+                        "startTime": "2025-08-23T18:00:00",
+                        "timeZone": "[parameters('scheduleTimeZone')]",
+                        "schedule": {
+                            "weekDays": [
+                                "Saturday"
+                            ]
+                        }
+                    }
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/pipelines/DatabricksTrigger')]"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "value": "your-adf-lakehouse-pipeline"
+        },
+        "databricksWorkspaceUrl": {
+            "value": "https://adb-xxxxxxxxx.xx.azuredatabricks.net"
+        },
+        "ADFtoDatabricks_accessToken": {
+            "value": ""
+        },
+        "ADFtoDatabricks_properties_typeProperties_existingClusterId": {
+            "value": "your-cluster-id"
+        },
+        "userEmail": {
+            "value": "your-email@domain.com"
+        },
+        "scheduleTimeZone": {
+            "value": "UTC"
+        }
+    }
+}

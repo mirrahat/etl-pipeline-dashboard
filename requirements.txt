@@ -1,0 +1,38 @@
+# Requirements for Local Data Engineering Platform
+# Developed by: Mir Hasibul Hasan Rahat
+
+# Core Data Processing (Local execution - no Spark required)
+pandas>=1.5.0
+numpy>=1.21.0
+pyarrow>=10.0.0
+
+# Web Dashboard Framework
+streamlit>=1.28.0
+flask>=2.3.0
+plotly>=5.15.0
+
+# Data Formats Support
+openpyxl>=3.0.0
+
+# Optional: Original Spark Dependencies (for future use)
+# pyspark==3.5.0
+# delta-spark==3.0.0
+
+# Optional: Advanced Analytics
+# matplotlib>=3.7.0
+# seaborn>=0.12.0
+
+# Development Tools
+python-dotenv==1.0.0
+jupyter==1.0.0
+notebook==7.0.2
+ipykernel==6.25.0
+
+# Development Tools
+pytest==7.4.0
+black==23.7.0
+flake8==6.0.0
+
+# Optional: For connecting to external data sources
+requests==2.31.0
+sqlalchemy==2.0.19

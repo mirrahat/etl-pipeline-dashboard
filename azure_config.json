@@ -1,0 +1,13 @@
+{
+  "subscription_id": "b6a34c6e-3b3b-4cf4-85dc-279699bca03c",
+  "user_email": "mirrahat0081@outlook.com",
+  "resource_group": "rg-user-rahat",
+  "storage_account": "stmirrahatdataeng2025",
+  "container_name": "datalake",
+  "region": "Australia East",
+  "databricks_workspace": "https://adb-workspace-mirrahat.azuredatabricks.net", 
+  "tenant_id": "",
+  "deployment_name": "etl-pipeline-dashboard",
+  "developer": "Mir Hasibul Hasan Rahat",
+  "created_date": "2025-09-30"
+}

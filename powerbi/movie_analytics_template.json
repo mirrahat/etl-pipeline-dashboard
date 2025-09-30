@@ -1,0 +1,501 @@
+{
+  "version": "4.0",
+  "dataModel": {
+    "tables": [
+      {
+        "name": "movie_performance_summary",
+        "source": "gold.movie_performance_summary",
+        "columns": [
+          {
+            "name": "title",
+            "dataType": "string",
+            "displayName": "Movie Title"
+          },
+          {
+            "name": "year",
+            "dataType": "int64",
+            "displayName": "Release Year"
+          },
+          {
+            "name": "rating",
+            "dataType": "double",
+            "displayName": "IMDb Rating",
+            "formatString": "0.0"
+          },
+          {
+            "name": "genre",
+            "dataType": "string",
+            "displayName": "Genre"
+          },
+          {
+            "name": "main_actor",
+            "dataType": "string",
+            "displayName": "Main Actor"
+          },
+          {
+            "name": "budget",
+            "dataType": "int64",
+            "displayName": "Budget",
+            "formatString": "$#,##0"
+          },
+          {
+            "name": "box_office",
+            "dataType": "int64",
+            "displayName": "Box Office Revenue",
+            "formatString": "$#,##0"
+          },
+          {
+            "name": "profit",
+            "dataType": "int64",
+            "displayName": "Profit",
+            "formatString": "$#,##0"
+          },
+          {
+            "name": "roi",
+            "dataType": "double",
+            "displayName": "Return on Investment",
+            "formatString": "0.0%"
+          },
+          {
+            "name": "performance_score",
+            "dataType": "double",
+            "displayName": "Performance Score",
+            "formatString": "0.0"
+          },
+          {
+            "name": "movie_era",
+            "dataType": "string",
+            "displayName": "Movie Era"
+          },
+          {
+            "name": "popularity_tier",
+            "dataType": "string",
+            "displayName": "Popularity Tier"
+          },
+          {
+            "name": "is_blockbuster",
+            "dataType": "boolean",
+            "displayName": "Is Blockbuster"
+          },
+          {
+            "name": "is_profitable",
+            "dataType": "boolean",
+            "displayName": "Is Profitable"
+          }
+        ]
+      },
+      {
+        "name": "genre_analytics",
+        "source": "gold.genre_analytics",
+        "columns": [
+          {
+            "name": "genre",
+            "dataType": "string",
+            "displayName": "Genre"
+          },
+          {
+            "name": "total_movies",
+            "dataType": "int64",
+            "displayName": "Total Movies"
+          },
+          {
+            "name": "avg_rating",
+            "dataType": "double",
+            "displayName": "Average Rating",
+            "formatString": "0.0"
+          },
+          {
+            "name": "avg_budget",
+            "dataType": "double",
+            "displayName": "Average Budget",
+            "formatString": "$#,##0"
+          },
+          {
+            "name": "avg_box_office",
+            "dataType": "double",
+            "displayName": "Average Box Office",
+            "formatString": "$#,##0"
+          },
+          {
+            "name": "avg_roi",
+            "dataType": "double",
+            "displayName": "Average ROI",
+            "formatString": "0.0%"
+          }
+        ]
+      },
+      {
+        "name": "era_analytics",
+        "source": "gold.era_analytics",
+        "columns": [
+          {
+            "name": "movie_era",
+            "dataType": "string",
+            "displayName": "Movie Era"
+          },
+          {
+            "name": "total_movies",
+            "dataType": "int64",
+            "displayName": "Total Movies"
+          },
+          {
+            "name": "avg_rating",
+            "dataType": "double",
+            "displayName": "Average Rating",
+            "formatString": "0.0"
+          },
+          {
+            "name": "avg_budget",
+            "dataType": "double",
+            "displayName": "Average Budget",
+            "formatString": "$#,##0"
+          },
+          {
+            "name": "avg_box_office",
+            "dataType": "double",
+            "displayName": "Average Box Office",
+            "formatString": "$#,##0"
+          },
+          {
+            "name": "profitability_rate",
+            "dataType": "double",
+            "displayName": "Profitability Rate",
+            "formatString": "0.0%"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "GenreRelationship",
+        "fromTable": "movie_performance_summary",
+        "fromColumn": "genre",
+        "toTable": "genre_analytics",
+        "toColumn": "genre",
+        "crossFilterDirection": "both"
+      },
+      {
+        "name": "EraRelationship",
+        "fromTable": "movie_performance_summary",
+        "fromColumn": "movie_era",
+        "toTable": "era_analytics",
+        "toColumn": "movie_era",
+        "crossFilterDirection": "both"
+      }
+    ],
+    "measures": [
+      {
+        "name": "Total Revenue",
+        "expression": "SUM('movie_performance_summary'[box_office])",
+        "formatString": "$#,##0,,\"M\"",
+        "displayFolder": "Financial KPIs"
+      },
+      {
+        "name": "Total Profit",
+        "expression": "SUM('movie_performance_summary'[profit])",
+        "formatString": "$#,##0,,\"M\"",
+        "displayFolder": "Financial KPIs"
+      },
+      {
+        "name": "Average ROI",
+        "expression": "AVERAGE('movie_performance_summary'[roi])",
+        "formatString": "0.0\"%\"",
+        "displayFolder": "Financial KPIs"
+      },
+      {
+        "name": "Blockbuster Rate",
+        "expression": "DIVIDE(COUNTROWS(FILTER('movie_performance_summary', 'movie_performance_summary'[is_blockbuster] = TRUE)), COUNTROWS('movie_performance_summary')) * 100",
+        "formatString": "0.0\"%\"",
+        "displayFolder": "Performance KPIs"
+      },
+      {
+        "name": "Profitability Rate",
+        "expression": "DIVIDE(COUNTROWS(FILTER('movie_performance_summary', 'movie_performance_summary'[is_profitable] = TRUE)), COUNTROWS('movie_performance_summary')) * 100",
+        "formatString": "0.0\"%\"",
+        "displayFolder": "Performance KPIs"
+      },
+      {
+        "name": "Average Performance Score",
+        "expression": "AVERAGE('movie_performance_summary'[performance_score])",
+        "formatString": "0.0",
+        "displayFolder": "Performance KPIs"
+      },
+      {
+        "name": "Movie Count",
+        "expression": "COUNTROWS('movie_performance_summary')",
+        "formatString": "#,##0",
+        "displayFolder": "Basic Metrics"
+      },
+      {
+        "name": "Average Rating",
+        "expression": "AVERAGE('movie_performance_summary'[rating])",
+        "formatString": "0.0",
+        "displayFolder": "Basic Metrics"
+      },
+      {
+        "name": "Top Performer Count",
+        "expression": "COUNTROWS(FILTER('movie_performance_summary', 'movie_performance_summary'[performance_score] > 8))",
+        "formatString": "#,##0",
+        "displayFolder": "Performance KPIs"
+      },
+      {
+        "name": "High Budget Movies",
+        "expression": "COUNTROWS(FILTER('movie_performance_summary', 'movie_performance_summary'[budget] > 100000000))",
+        "formatString": "#,##0",
+        "displayFolder": "Budget Analysis"
+      }
+    ],
+    "calculatedColumns": [
+      {
+        "tableName": "movie_performance_summary",
+        "name": "Budget Category",
+        "expression": "SWITCH(TRUE(), 'movie_performance_summary'[budget] >= 100000000, \"Big Budget (>$100M)\", 'movie_performance_summary'[budget] >= 50000000, \"Medium Budget ($50M-$100M)\", 'movie_performance_summary'[budget] >= 10000000, \"Low Budget ($10M-$50M)\", \"Micro Budget (<$10M)\")",
+        "dataType": "string"
+      },
+      {
+        "tableName": "movie_performance_summary",
+        "name": "Decade",
+        "expression": "INT('movie_performance_summary'[year] / 10) * 10",
+        "dataType": "int64"
+      },
+      {
+        "tableName": "movie_performance_summary",
+        "name": "Profit Margin",
+        "expression": "IF('movie_performance_summary'[box_office] > 0, 'movie_performance_summary'[profit] / 'movie_performance_summary'[box_office], 0)",
+        "dataType": "double",
+        "formatString": "0.0%"
+      },
+      {
+        "tableName": "movie_performance_summary",
+        "name": "Success Level",
+        "expression": "SWITCH(TRUE(), 'movie_performance_summary'[performance_score] >= 9, \"Exceptional\", 'movie_performance_summary'[performance_score] >= 8, \"Excellent\", 'movie_performance_summary'[performance_score] >= 7, \"Good\", 'movie_performance_summary'[performance_score] >= 6, \"Average\", \"Below Average\")",
+        "dataType": "string"
+      }
+    ]
+  },
+  "pages": [
+    {
+      "name": "Executive Dashboard",
+      "displayName": "🏢 Executive Dashboard",
+      "width": 1280,
+      "height": 720,
+      "visuals": [
+        {
+          "type": "card",
+          "title": "Total Revenue",
+          "x": 0,
+          "y": 0,
+          "width": 200,
+          "height": 120,
+          "measure": "Total Revenue",
+          "conditionalFormatting": {
+            "fontColor": "#2ca02c"
+          }
+        },
+        {
+          "type": "card",
+          "title": "Average ROI",
+          "x": 220,
+          "y": 0,
+          "width": 200,
+          "height": 120,
+          "measure": "Average ROI",
+          "conditionalFormatting": {
+            "fontColor": "#1f77b4"
+          }
+        },
+        {
+          "type": "card",
+          "title": "Blockbuster Rate",
+          "x": 440,
+          "y": 0,
+          "width": 200,
+          "height": 120,
+          "measure": "Blockbuster Rate",
+          "conditionalFormatting": {
+            "fontColor": "#ff7f0e"
+          }
+        },
+        {
+          "type": "donutChart",
+          "title": "Movies by Genre",
+          "x": 0,
+          "y": 140,
+          "width": 400,
+          "height": 300,
+          "category": "genre",
+          "values": "Movie Count"
+        },
+        {
+          "type": "clusteredColumnChart",
+          "title": "Revenue by Era",
+          "x": 420,
+          "y": 140,
+          "width": 500,
+          "height": 300,
+          "category": "movie_era",
+          "values": "Total Revenue"
+        },
+        {
+          "type": "scatterChart",
+          "title": "Budget vs Revenue",
+          "x": 0,
+          "y": 460,
+          "width": 640,
+          "height": 260,
+          "xAxis": "budget",
+          "yAxis": "box_office",
+          "size": "rating",
+          "colorBy": "genre"
+        }
+      ]
+    },
+    {
+      "name": "Genre Analysis",
+      "displayName": "🎭 Genre Analysis",
+      "width": 1280,
+      "height": 720,
+      "visuals": [
+        {
+          "type": "clusteredColumnChart",
+          "title": "Average Rating by Genre",
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 350,
+          "category": "genre",
+          "values": "avg_rating"
+        },
+        {
+          "type": "treemap",
+          "title": "Genre Market Share",
+          "x": 660,
+          "y": 0,
+          "width": 620,
+          "height": 350,
+          "category": "genre",
+          "values": "Total Revenue"
+        },
+        {
+          "type": "scatterChart",
+          "title": "Budget Efficiency by Genre",
+          "x": 0,
+          "y": 370,
+          "width": 640,
+          "height": 350,
+          "xAxis": "avg_budget",
+          "yAxis": "avg_box_office",
+          "size": "total_movies",
+          "colorBy": "genre"
+        }
+      ]
+    },
+    {
+      "name": "Financial Analysis",
+      "displayName": "💰 Financial Analysis",
+      "width": 1280,
+      "height": 720,
+      "visuals": [
+        {
+          "type": "waterfallChart",
+          "title": "Profit Analysis",
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 350,
+          "category": "Budget Category",
+          "values": "Total Profit"
+        },
+        {
+          "type": "scatterChart",
+          "title": "Risk-Return Matrix",
+          "x": 660,
+          "y": 0,
+          "width": 620,
+          "height": 350,
+          "xAxis": "budget",
+          "yAxis": "roi",
+          "size": "performance_score",
+          "colorBy": "is_blockbuster"
+        }
+      ]
+    },
+    {
+      "name": "Movie Explorer",
+      "displayName": "🎬 Movie Explorer",
+      "width": 1280,
+      "height": 720,
+      "filters": [
+        {
+          "type": "slicer",
+          "field": "year",
+          "x": 0,
+          "y": 0,
+          "width": 200,
+          "height": 100
+        },
+        {
+          "type": "slicer",
+          "field": "genre",
+          "x": 220,
+          "y": 0,
+          "width": 200,
+          "height": 100
+        }
+      ],
+      "visuals": [
+        {
+          "type": "table",
+          "title": "Movie Performance Details",
+          "x": 0,
+          "y": 120,
+          "width": 1280,
+          "height": 400,
+          "columns": [
+            "title",
+            "year",
+            "genre",
+            "rating",
+            "budget",
+            "box_office",
+            "profit",
+            "roi",
+            "performance_score"
+          ]
+        }
+      ]
+    }
+  ],
+  "theme": {
+    "name": "Movie Analytics Theme",
+    "colorPalette": {
+      "primary": "#1f77b4",
+      "secondary": "#ff7f0e",
+      "accent1": "#2ca02c",
+      "accent2": "#d62728",
+      "accent3": "#9467bd",
+      "neutral": "#7f7f7f"
+    },
+    "fonts": {
+      "title": {
+        "fontFamily": "Segoe UI",
+        "fontSize": 16,
+        "fontWeight": "Bold"
+      },
+      "body": {
+        "fontFamily": "Segoe UI",
+        "fontSize": 11,
+        "fontWeight": "Regular"
+      }
+    }
+  },
+  "settings": {
+    "crossFiltering": true,
+    "responsiveLayout": true,
+    "mobileOptimized": true,
+    "refreshSchedule": {
+      "frequency": "daily",
+      "time": "06:00"
+    }
+  }
+}

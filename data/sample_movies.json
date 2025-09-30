@@ -1,0 +1,182 @@
+[
+  {
+    "title": "The Matrix",
+    "year": 1999,
+    "rating": 8.7,
+    "genre": "Sci-Fi",
+    "main_actor": "Keanu Reeves",
+    "budget": 63000000,
+    "box_office": 463517383
+  },
+  {
+    "title": "Inception",
+    "year": 2010,
+    "rating": 8.8,
+    "genre": "Sci-Fi",
+    "main_actor": "Leonardo DiCaprio",
+    "budget": 160000000,
+    "box_office": 836836967
+  },
+  {
+    "title": "The Dark Knight",
+    "year": 2008,
+    "rating": 9.0,
+    "genre": "Action",
+    "main_actor": "Christian Bale",
+    "budget": 185000000,
+    "box_office": 1004558444
+  },
+  {
+    "title": "Pulp Fiction",
+    "year": 1994,
+    "rating": 8.9,
+    "genre": "Crime",
+    "main_actor": "John Travolta",
+    "budget": 8000000,
+    "box_office": 214179088
+  },
+  {
+    "title": "The Shawshank Redemption",
+    "year": 1994,
+    "rating": 9.3,
+    "genre": "Drama",
+    "main_actor": "Tim Robbins",
+    "budget": 25000000,
+    "box_office": 16000000
+  },
+  {
+    "title": "Forrest Gump",
+    "year": 1994,
+    "rating": 8.8,
+    "genre": "Drama",
+    "main_actor": "Tom Hanks",
+    "budget": 55000000,
+    "box_office": 677387716
+  },
+  {
+    "title": "Fight Club",
+    "year": 1999,
+    "rating": 8.8,
+    "genre": "Drama",
+    "main_actor": "Brad Pitt",
+    "budget": 63000000,
+    "box_office": 100853753
+  },
+  {
+    "title": "The Lord of the Rings: The Fellowship of the Ring",
+    "year": 2001,
+    "rating": 8.8,
+    "genre": "Fantasy",
+    "main_actor": "Elijah Wood",
+    "budget": 93000000,
+    "box_office": 871368364
+  },
+  {
+    "title": "Star Wars: Episode IV - A New Hope",
+    "year": 1977,
+    "rating": 8.6,
+    "genre": "Sci-Fi",
+    "main_actor": "Mark Hamill",
+    "budget": 11000000,
+    "box_office": 775398007
+  },
+  {
+    "title": "Goodfellas",
+    "year": 1990,
+    "rating": 8.7,
+    "genre": "Crime",
+    "main_actor": "Robert De Niro",
+    "budget": 25000000,
+    "box_office": 46842311
+  },
+  {
+    "title": "The Godfather",
+    "year": 1972,
+    "rating": 9.2,
+    "genre": "Crime",
+    "main_actor": "Marlon Brando",
+    "budget": 6000000,
+    "box_office": 245066411
+  },
+  {
+    "title": "Interstellar",
+    "year": 2014,
+    "rating": 8.6,
+    "genre": "Sci-Fi",
+    "main_actor": "Matthew McConaughey",
+    "budget": 165000000,
+    "box_office": 677471339
+  },
+  {
+    "title": "Parasite",
+    "year": 2019,
+    "rating": 8.6,
+    "genre": "Thriller",
+    "main_actor": "Song Kang-ho",
+    "budget": 11400000,
+    "box_office": 258804298
+  },
+  {
+    "title": "The Avengers",
+    "year": 2012,
+    "rating": 8.0,
+    "genre": "Action",
+    "main_actor": "Robert Downey Jr.",
+    "budget": 220000000,
+    "box_office": 1518812988
+  },
+  {
+    "title": "Titanic",
+    "year": 1997,
+    "rating": 7.8,
+    "genre": "Romance",
+    "main_actor": "Leonardo DiCaprio",
+    "budget": 200000000,
+    "box_office": 2187463944
+  },
+  {
+    "title": "Avatar",
+    "year": 2009,
+    "rating": 7.8,
+    "genre": "Sci-Fi",
+    "main_actor": "Sam Worthington",
+    "budget": 237000000,
+    "box_office": 2923706026
+  },
+  {
+    "title": "Joker",
+    "year": 2019,
+    "rating": 8.4,
+    "genre": "Drama",
+    "main_actor": "Joaquin Phoenix",
+    "budget": 55000000,
+    "box_office": 1074251311
+  },
+  {
+    "title": "Black Panther",
+    "year": 2018,
+    "rating": 7.3,
+    "genre": "Action",
+    "main_actor": "Chadwick Boseman",
+    "budget": 200000000,
+    "box_office": 1348258224
+  },
+  {
+    "title": "Spider-Man: No Way Home",
+    "year": 2021,
+    "rating": 8.2,
+    "genre": "Action",
+    "main_actor": "Tom Holland",
+    "budget": 200000000,
+    "box_office": 1921847111
+  },
+  {
+    "title": "Top Gun: Maverick",
+    "year": 2022,
+    "rating": 8.3,
+    "genre": "Action",
+    "main_actor": "Tom Cruise",
+    "budget": 170000000,
+    "box_office": 1488732821
+  }
+]
