@@ -1,6 +1,32 @@
 """
-ETL Pipeline Analytics Dashboard
-Author: Mir Hasibul Hasan Rahat
+ETL Pipeline Anal    #else:
+     #else:
+    # Local configuration
+    st.set_page_config(
+        page_title="Data Engineering Platform",
+        page_icon="",
+        layout="wide",
+        initial_sidebar_state="expanded"
+    )onfiguration
+    st.set_page_config(
+        page_title="Data Engineering Platform",
+        page_icon="",
+        layout="wide",
+        initial_sidebar_state="expanded"
+    )cal configuration
+    st.set_page_config(
+        page_title="Data Engineering Platform",
+        page_icon="",
+        layout="wide",
+        initial_sidebar_state="expanded"
+    )   page_title="Data Engineering Platform",al configuration
+    st.set_page_config(
+        page_title="Data Engineering Platform",
+        page_icon="",
+        layout="wide",
+        initial_sidebar_state="expanded"
+    )ashboard
+Author: # Custom CSSul Hasan Rahat
 Date: September 2025
 
 Interactive web dashboard for ETL pipeline monitoring and data analytics.
@@ -22,7 +48,7 @@ if os.getenv('WEBSITE_HOSTNAME'):  # Running on Azure
 else:
     # Local configuration
     st.set_page_config(
-        page_title="Data Engineering Platform",
+        page_title="Data Engineering Plat                            st.markdown("### Partitioning Strategy")orm",
         page_icon="",
         layout="wide",
         initial_sidebar_state="expanded"
@@ -39,10 +65,19 @@ import json
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import os
 import time
 from datetime import datetime
 import subprocess
 import pyarrow.parquet as pq
+
+# Page configuration
+st.set_page_config(
+    page_title="Data Engineering Platform",
+    page_icon="�",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
 # Custom CSS
 st.markdown("""
@@ -64,53 +99,43 @@ st.markdown("""
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
     .success-card {
-        background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-        color: white;
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
         padding: 1rem;
-        border-radius: 10px;
-        margin: 1rem 0;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    .warning-card {
-        background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+        border-radius: 8px;
         color: white;
-        padding: 1rem;
-        border-radius: 10px;
-        margin: 1rem 0;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin: 0.5rem 0;
     }
     .zone-indicator {
-        background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+        display: inline-block;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
         color: white;
-        padding: 0.5rem;
-        border-radius: 5px;
-        text-align: center;
         margin: 0.2rem;
         font-weight: bold;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-    .zone-indicator.raw { background: linear-gradient(135deg, #FF6B6B 0%, #E53E3E 100%); }
-    .zone-indicator.bronze { background: linear-gradient(135deg, #CD7F32 0%, #B8860B 100%); }
-    .zone-indicator.silver { background: linear-gradient(135deg, #C0C0C0 0%, #A8A8A8 100%); color: black; }
-    .zone-indicator.gold { background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: black; }
+    .bronze { background: #CD7F32; }
+    .silver { background: #C0C0C0; }
+    .gold { background: #FFD700; color: black; }
+    .raw { background: #FF6B6B; }
+    
+    .metric-highlight {
+        background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+        padding: 1rem;
+        border-radius: 8px;
+        color: white;
+        text-align: center;
+        margin: 0.5rem 0;
+    }
 </style>
 """, unsafe_allow_html=True)
 
 @st.cache_data
 def load_all_data():
-    """Load all pipeline data from both ETL and Data Lake"""
-    
+    """Load data from all sources - ETL pipeline and Data Lake"""
     all_data = {
         'etl_pipeline': {},
-        'data_lake': {
-            'bronze': {},
-            'silver': {},
-            'gold': {}
-        },
-        'status': {
-            'etl_exists': False,
-            'lake_exists': False
-        }
+        'data_lake': {},
+        'status': {'etl_exists': False, 'lake_exists': False}
     }
     
     # Load ETL Pipeline data (simple pipeline)
@@ -194,10 +219,10 @@ def create_unified_architecture_diagram():
     
     # Processing zones
     zones = [
-        {'name': 'Raw Zone', 'x': 2, 'y': 4.5, 'color': '#FF6B6B', 'desc': 'JSON, CSV\\nParquet'},
-        {'name': 'Bronze Layer', 'x': 3.5, 'y': 4.5, 'color': '#CD7F32', 'desc': 'Standardized\\nMetadata'},
-        {'name': 'Silver Layer', 'x': 5, 'y': 4.5, 'color': '#C0C0C0', 'desc': 'Cleaned\\nEnriched'},
-        {'name': 'Gold Layer', 'x': 6.5, 'y': 4.5, 'color': '#FFD700', 'desc': 'Analytics\\nReady'},
+        {'name': 'Raw Zone', 'x': 2, 'y': 4.5, 'color': '#FF6B6B', 'desc': 'JSON, CSV\nParquet'},
+        {'name': 'Bronze Layer', 'x': 3.5, 'y': 4.5, 'color': '#CD7F32', 'desc': 'Standardized\nMetadata'},
+        {'name': 'Silver Layer', 'x': 5, 'y': 4.5, 'color': '#C0C0C0', 'desc': 'Cleaned\nEnriched'},
+        {'name': 'Gold Layer', 'x': 6.5, 'y': 4.5, 'color': '#FFD700', 'desc': 'Analytics\nReady'},
     ]
     
     # Output destinations
@@ -216,45 +241,48 @@ def create_unified_architecture_diagram():
             x0=comp['x']-0.35, y0=comp['y']-0.25,
             x1=comp['x']+0.35, y1=comp['y']+0.25,
             fillcolor=comp['color'],
-            line=dict(color="white", width=2)
+            opacity=0.8,
+            line=dict(color=comp['color'], width=2)
         )
         
         fig.add_annotation(
-            x=comp['x'], y=comp['y'],
+            x=comp['x'], y=comp['y']+0.05,
             text=f"<b>{comp['name']}</b>",
             showarrow=False,
-            font=dict(color="white", size=10),
-            bgcolor=comp['color'],
-            bordercolor="white"
+            font=dict(color="white" if comp['color'] != '#FFD700' else "black", size=10)
         )
+        
+        if 'desc' in comp:
+            fig.add_annotation(
+                x=comp['x'], y=comp['y']-0.1,
+                text=comp['desc'],
+                showarrow=False,
+                font=dict(color="white" if comp['color'] != '#FFD700' else "black", size=8)
+            )
     
-    # Add flow arrows
+    # Add arrows
     arrows = [
-        {'start': 1, 'end': 2},
-        {'start': 2, 'end': 3.5},
-        {'start': 3.5, 'end': 5},
-        {'start': 5, 'end': 6.5},
-        {'start': 6.5, 'end': 8}
+        (sources[1]['x']+0.4, sources[1]['y'], zones[0]['x']-0.4, zones[0]['y']),
+        (zones[0]['x']+0.4, zones[0]['y'], zones[1]['x']-0.4, zones[1]['y']),
+        (zones[1]['x']+0.4, zones[1]['y'], zones[2]['x']-0.4, zones[2]['y']),
+        (zones[2]['x']+0.4, zones[2]['y'], zones[3]['x']-0.4, zones[3]['y']),
+        (zones[3]['x']+0.4, zones[3]['y'], outputs[1]['x']-0.4, outputs[1]['y'])
     ]
     
-    for arrow in arrows:
+    for x1, y1, x2, y2 in arrows:
         fig.add_annotation(
-            x=arrow['end'], y=4.5,
-            ax=arrow['start'], ay=4.5,
-            arrowhead=2,
-            arrowsize=1,
-            arrowwidth=2,
-            arrowcolor="#34495E"
+            x=x1, y=y1, ax=x2, ay=y2,
+            arrowhead=2, arrowsize=1.5, arrowwidth=2,
+            arrowcolor="#2C3E50"
         )
     
     fig.update_layout(
-        title="Data Engineering Platform Architecture",
-        xaxis=dict(range=[0, 9], showgrid=False, zeroline=False, showticklabels=False),
-        yaxis=dict(range=[3.5, 5.5], showgrid=False, zeroline=False, showticklabels=False),
-        height=300,
+        title="Complete Data Engineering Platform Architecture",
         showlegend=False,
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)'
+        xaxis=dict(range=[0, 9], showgrid=False, showticklabels=False),
+        yaxis=dict(range=[3.5, 5.5], showgrid=False, showticklabels=False),
+        plot_bgcolor='rgba(0,0,0,0)',
+        height=400
     )
     
     return fig
@@ -475,17 +503,17 @@ def main():
         arch_fig = create_unified_architecture_diagram()
         st.plotly_chart(arch_fig, use_container_width=True)
         
-        # Architecture explanation
+        # Platform overview
         col1, col2 = st.columns(2)
         
         with col1:
             st.markdown("""
             <div class="pipeline-card">
                 <h3>ETL Pipeline</h3>
-                <p>• Standard Bronze→Silver→Gold layers</p>
-                <p>• JSON-based processing</p>
-                <p>• Fast execution (~0.04s)</p>
-                <p>• File-based storage</p>
+                <p>• Fast local processing</p>
+                <p>• JSON-based storage</p>
+                <p>• Bronze → Silver → Gold layers</p>
+                <p>• Business analytics generation</p>
             </div>
             """, unsafe_allow_html=True)
         
@@ -739,7 +767,7 @@ def main():
                     if lake_zone == 'silver' and os.path.exists("data/lake/silver/movies_enriched"):
                         partitions = [d for d in os.listdir("data/lake/silver/movies_enriched") if d.startswith('decade=')]
                         if partitions:
-                            st.markdown("### Partitioning Strategy")
+                            st.markdown("### 🗂️ Partitioning Strategy")
                             st.success(f"Data partitioned by decade: {len(partitions)} partitions ({', '.join(partitions)})")
                 
                 # Overall Data Lake summary
@@ -856,7 +884,7 @@ def main():
             - Revenue by genre charts
             - Business intelligence metrics  
             - Interactive data exploration
-            - Detailed data tables
+            - 📋 Detailed data tables
             """)
     
     with tab5:
@@ -884,7 +912,7 @@ def main():
                 # Partitioning info
                 if os.path.exists("data/lake/silver/movies_enriched"):
                     partitions = [d for d in os.listdir("data/lake/silver/movies_enriched") if d.startswith('decade=')]
-                    st.markdown(f"### Partitioning Strategy")
+                    st.markdown(f"### 🗂️ Partitioning Strategy")
                     st.info(f"Silver layer partitioned by decade: {', '.join(partitions)}")
                     
                     # Show partition sizes
@@ -940,10 +968,11 @@ def main():
     # Footer
     st.markdown("---")
     st.markdown("""
-    <div style='text-align: center; padding: 20px;'>
-        <p><strong>Data Engineering Platform Dashboard</strong></p>
-        <p>Built by Mir Hasibul Hasan Rahat | 2025</p>
-        <p>Technologies: Python, Streamlit, Plotly, Pandas, PyArrow</p>
+    <div style='text-align: center; color: #666; margin-bottom: 20px;'>
+        <h4 style='color: #4CAF50; margin-bottom: 10px;'>Developed by: Mir Hasibul Hasan Rahat</h4>
+        <p style='margin: 5px 0;'><strong>Data Engineer | Python Developer | Analytics Specialist</strong></p>
+        <p style='margin: 5px 0;'>Unified Data Engineering Platform | ETL Pipeline + Data Lake + Analytics</p>
+        <p style='color: #999; font-size: 0.9em;'>Built with Streamlit, Pandas, Plotly & PyArrow</p>
     </div>
     """, unsafe_allow_html=True)
 
