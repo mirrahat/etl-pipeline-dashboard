@@ -11,6 +11,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application files
 COPY unified_dashboard.py .
 COPY simple_local_pipeline.py .
+COPY enhanced_data_lake.py .
+COPY data/ ./data/
+COPY config/ ./config/
 
 # Expose port 8501 (Streamlit default)
 EXPOSE 8501
