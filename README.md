@@ -107,41 +107,17 @@ python enhanced_data_lake.py
 - Visual diagram of complete platform architecture
 - Component relationships and data flow
 - Processing zones and storage layers
-
-#### Pipeline Status Tab
-- Real-time pipeline execution status
-- Data layer statistics and metrics
-- File system monitoring
-
-#### Data Explorer Tab
 - Browse data at Bronze, Silver, and Gold layers
 - Interactive data tables
 - Search and filter capabilities
-
-#### Analytics Tab
-- Revenue by genre analysis
-- ETL vs Data Lake comparison charts
 - Business intelligence visualizations
 
 #### Data Lake Tab
-- Advanced data lake management
-- Partition exploration
-- Multi-format data handling
-
 ## Sample Analytics
 
-The platform generates business analytics including:
-
-- **Genre Performance**: Revenue and rating analysis by movie genre
-- **Era Trends**: Performance trends across different decades
-- **Top Performers**: Highest grossing and rated content
-- **Profit Margins**: ROI analysis across different categories
 
 ## Technical Details
 
-### ETL Pipeline Components
-
-1. **Bronze Layer** (`data/bronze/`)
    - Raw data ingestion
    - Basic data validation
    - Metadata preservation
@@ -152,27 +128,18 @@ The platform generates business analytics including:
    - Enhanced with business rules
 
 3. **Gold Layer** (`data/gold/`)
-   - Aggregated analytics
    - Business-ready datasets
    - Optimized for reporting
 
 ### Data Lake Structure
 
-```
-data/
-├── lake/
-│   ├── raw/           # Raw ingested data
-│   ├── bronze/        # Standardized Parquet files
 │   ├── silver/        # Partitioned cleaned data
 │   │   └── movies_enriched/
 │   │       ├── decade=1970/
-│   │       ├── decade=1990/
 │   │       └── decade=2000/
 │   └── gold/          # Analytics-ready datasets
 └── [simple ETL structure]
 ```
-
-### Key Technologies
 
 - **Python**: Core processing language
 - **Pandas**: Data manipulation and analysis
@@ -206,13 +173,6 @@ This enhanced version adds:
 - **Data Quality Monitoring**: Automated quality checks
 - **API Integration**: REST API for pipeline management
 
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
 ## Acknowledgments
 
